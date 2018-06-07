@@ -173,14 +173,10 @@ mlp = NeuralNetMLP(n_output=10, n_features=X_train.shape[1], n_hidden=50, l1=0.1
 mlp.fit(X_train, y_train, print_progress=True)
 with open(os.path.join('./data', 'mlp_digits.pkl'), 'wb') as f :
     pickle.dump(mlp, f, protocol=4)
-
-print('머신러닝 데이터 저장 완료')
 '''
 
 with open (os.path.join('./data', 'mlp_digits.pkl'), 'rb') as f :
     mlp = pickle.load(f)
-
-print("딥러닝 데이터 로드 완료")
 
 batches = np.array_split(range(len(mlp.cost_)), 1000)
 cost_ary = np.array(mlp.cost_)
