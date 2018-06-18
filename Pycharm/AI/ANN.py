@@ -65,12 +65,12 @@ nOutputs = 4
 # Hidden, Output 가중치 랜덤하게 초기화
 hiddenWeights = 0.5 * (np.random.rand(nHidden, nInputs+1) - np.ones((nHidden, nInputs+1)) * 0.5)
 outputWeights = 0.5 * (np.random.rand(nOutputs, nHidden+1) - np.ones((nOutputs, nHidden+1)) * 0.5)
-
 input = patterns
 target = np.zeros((nOutputs, nPats))
 classNum = 0
 eta = 0.1
-nEpochs = 1  # 반복횟수
+nEpochs = 1000  # 반복횟수
+totalNEpochs = 0
 
 for pat in range (0,nPats,1) :
     target[classNum, pat] = 1
@@ -100,14 +100,29 @@ for epoch in range (0, nEpochs, 1) :
         targetStates = target[:,pat]
         error = outputStates - targetStates
         sumSqrError = sumSqrError + np.dot(error, error)
+
         outputDel = outputDeltas(outputStates, targetStates)
         outputWGrad = outputWGrad + np.dot(np.array([outputDel]).T, np.array([hidStatesBias]))
         hiddenDel = hiddenDeltas(outputDel, hidStatesBias, outputWeights)
         hiddenDelArray = np.array([hiddenDel])
         hiddenWGrad = hiddenWGrad + np.dot(hiddenDelArray[:,0:nHidden].T, np.array([inp]))
 
-        outputWChange = eta * outputWGrad
-        outputWeights = outputWeights + outputWChange
-        hiddenWChange = eta * hiddenWGrad
-        hiddenWeights = hiddenWeights + hiddenWChange
+    outputWChange = eta * outputWGrad
+    outputWeights = outputWeights + outputWChange
+    hiddenWChange = eta * hiddenWGrad
+    hiddenWeights = hiddenWeights + hiddenWChange
 
+    for pat in range(nTrainingPats+1, nPats, 1) :
+        inp = np.hstack([input[:, pat], np.array([1])])
+        hiddenNetInputs = np.dot(hiddenWeights, inp)
+        hiddenStates = sigmoidFunc(hiddenNetInputs)
+        hidStatesBias = np.hstack([hiddenStates, np.array([1])])
+        outputNetInputs = np.dot(outputWeights, hidStatesBias)
+        outputStates = sigmoidFunc(outputNetInputs)
+
+        targetStates = target[:, pat]
+        error = outputStates - targetStates
+        sumSqrTestError = sumSqrTestError + np.dot(error, error)
+
+    #gradsize = np.linalg.norm(np.vstack([hiddenWGrad[:],outputWGrad[:]]))
+    totalNEpochs = totalNEpochs + 1

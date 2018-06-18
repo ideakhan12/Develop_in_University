@@ -13,6 +13,10 @@ eta = 0.5 #학습률
 sig = 1 #이웃소속도
 mStep = 10 #반복횟수
 
+plt.scatter(X[:,0],X[:,1])
+plt.plot(w[0, :], w[1, :], 'ko--')
+plt.show()
+
 def som_alpha(i, j, sig, NumC):
     x1 = np.zeros((1, 2))
     x2 = np.zeros((1, 2))
@@ -45,3 +49,15 @@ for j in range(2,mStep,1): #반복학습시작
     sig = sig*0.9 #이웃소속도 파라미터 감소
     if np.mean(sum_dw) < 0.001 : #가중치 변화 없을 시 학습완료
         j = mStep+1
+'''
+for i in range(0,N,1) :
+    x = X[i,:]
+    dist = np.zeros((1,OUT))
+    for k in range(0,OUT,1) :
+        dist[0,k] = np.dot((x-np.array([w[:,k]])),(x-np.array(w[:,k])).T)
+    wini = np.argmin(dist)
+'''
+
+plt.scatter(X[:,0],X[:,1])
+plt.plot(w[0, :], w[1, :], 'ko--')
+plt.show()
