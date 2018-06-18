@@ -2,16 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 Dim = 2  #입력 차원
-N = 1000 #학습데이터수
+N = 10000 #학습데이터수
 X = 2*np.random.rand(N,Dim)-1 #입력데이터 생성
 INP = X.shape[1] #INP = 2, 입력데이터
-R = 10 #입력 뉴런수
-C = 10 #입력 뉴런수
+R = 2 #입력 뉴런수
+C = 4 #입력 뉴런수
 OUT = R*C #출력 뉴런수
 w = np.random.rand(INP,OUT)*0.6-0.3
 eta = 0.5 #학습률
 sig = 1 #이웃소속도
 mStep = 10 #반복횟수
+
+plt.scatter(X[:,0],X[:,1])
+plt.plot(w[0, :], w[1, :], 'ko--')
+plt.show()
 
 def som_alpha(i, j, sig, NumC):
     x1 = np.zeros((1, 2))
@@ -45,3 +49,18 @@ for j in range(2,mStep,1): #반복학습시작
     sig = sig*0.9 #이웃소속도 파라미터 감소
     if np.mean(sum_dw) < 0.001 : #가중치 변화 없을 시 학습완료
         j = mStep+1
+
+cmode = ['*b', '*g', '*r', '*c', '*m', '*y', '*k', '*b']
+for i in range(0,N,1) :
+    x = X[i,:]
+    #print(x)
+    dist = np.zeros((1,OUT))
+    for k in range(0,OUT,1) :
+        dist[0,k] = np.dot((x-np.array([w[:,k]])),(x-np.array(w[:,k])).T)
+    wini = np.argmin(dist)
+    plt.plot(x[0],x[1],cmode[wini])
+
+
+#plt.scatter(X[:,0],X[:,1])
+plt.plot(w[0, :], w[1, :], 'ko--')
+plt.show()
