@@ -87,7 +87,7 @@ for epoch in range (0, nEpochs, 1) :
     outputWGrad = np.zeros(outputWeights.shape)
     hiddenWGrad = np.zeros(hiddenWeights.shape)
 
-    for pat in range (0, nTrainingPats, 1) :
+    for pat in range (0, 40, 1) :
         # hstack - n by p 배열과 n by k 배열, 두 배열이 있으면 n by k+p 인 배열로 만듦, 즉 행의 수가 같은 두 배열을 옆으로 연결
         # input[:,pat] = 모든 행의 pat번째 열을 리스트로, 즉 각 열을 리스트로 뽑음
         inp = np.hstack([input[:,pat], np.array([1])])

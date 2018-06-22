@@ -2,20 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 dataNum = 1000
-X = np.zeros((dataNum*3,2))
+#X = np.zeros((dataNum*3,2))
+X = np.random.randn(dataNum*3,2)
 
+'''
 X[0:dataNum,:] = np.random.randn(dataNum,2)
 X[dataNum:dataNum*2,:] = np.random.randn(dataNum,2)+2
 X[dataNum*2:dataNum*3,:] = np.random.randn(dataNum,2)+4
+'''
 
 plt.figure(1)
 plt.plot(X[:,0], X[:,1], '*g')
 N = X.shape[0]
-K = 5
+K = 6
 m = np.zeros((K,2))
 Xlabel = np.zeros(((N,1)))
 i = 0
-cmode = ['*g', '*r', '*b', '*y','*m']
+cmode = ['*g', '*r', '*b', '*y','*m','*c']
 
 while i < K :
     t = int(np.floor(np.random.rand(1)*N))
